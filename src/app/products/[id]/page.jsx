@@ -7,6 +7,28 @@ import {
   FaQuestionCircle,
 } from "react-icons/fa";
 
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const product = await response.json();
+
+  return {
+    title: product.name,
+    description: product.description?.slice(0, 150), 
+    openGraph: {
+      title: `${product.name} - Hero Kidz`,
+      description: product.description,
+      url: `https://hero-kidz.vercel.app/products/${id}`,
+      images: [
+        {
+          url: product.image, 
+          width: 800,
+          height: 600,
+        },
+      ],
+    },
+  };
+}
+
 export default async function ProductDetails({ params }) {
   const { id } = await params;
   const product = await getSingleProduct(id);
