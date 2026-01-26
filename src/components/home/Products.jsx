@@ -4,7 +4,8 @@ import ProductCard from "../cards/ProductCard";
 import { getProducts } from "@/actions/server/product";
 
 export default async function Products() {
-  const products = (await getProducts()) || [];
+  const products = await getProducts();
+
   return (
     <div>
       <h2 className="text-4xl font-bold text-center mb-10">Out Products</h2>

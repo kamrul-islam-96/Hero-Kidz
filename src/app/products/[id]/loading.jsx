@@ -6,7 +6,7 @@ export default function Loading() {
       {/* Top Section: Image and Basic Info Skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-base-100 p-6 rounded-2xl shadow-sm border border-base-200">
         {/* Left: Product Image Skeleton */}
-        <div className="relative bg-gray-200 rounded-2xl h-[300px] md:h-[500px] w-full"></div>
+        <div className="relative bg-gray-200 rounded-2xl h-75 md:h-125 w-full"></div>
 
         {/* Right: Product Info Skeleton */}
         <div className="space-y-6">
