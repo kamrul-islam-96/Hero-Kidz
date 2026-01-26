@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { FaStar, FaShoppingCart, FaCheckCircle } from "react-icons/fa";
 
@@ -70,6 +71,12 @@ export default function ProductCard({ product }) {
             <FaShoppingCart />
             Add to Cart
           </button>
+          <Link className="w-full" href={`/products/${product._id}`}>
+            <button className="btn btn-primary btn-block gap-2 normal-case">
+              <FaShoppingCart />
+              View Details
+            </button>
+          </Link>
         </div>
       </div>
     </div>
