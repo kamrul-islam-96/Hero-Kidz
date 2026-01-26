@@ -1,4 +1,5 @@
 import { getSingleProduct } from "@/actions/server/product";
+import AddToCartBtn from "@/components/buttons/AddToCartBtn";
 import Image from "next/image";
 import {
   FaStar,
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }) {
         url: `${API_URL}/products/${id}`,
         images: [
           {
-            url: product.image, 
+            url: product.image,
             width: 1200,
             height: 630,
           },
@@ -129,12 +130,12 @@ export default async function ProductDetails({ params }) {
           </div>
 
           <div className="flex gap-4 pt-4">
-            <button className="btn btn-primary flex-1 gap-2">
+            <button className="btn btn-primary gap-2">
               <FaShoppingCart /> Buy Now
             </button>
-            <button className="btn btn-outline btn-primary flex-1">
-              Add to Cart
-            </button>
+            <div>
+              <AddToCartBtn product={product} />
+            </div>
           </div>
         </div>
       </div>

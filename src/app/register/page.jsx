@@ -1,14 +1,39 @@
 "use client";
+import { postUser } from "@/actions/server/auth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   FaUser,
   FaEnvelope,
   FaLock,
   FaImage,
-  FaCircleCheck, 
+  FaCircleCheck,
 } from "react-icons/fa6";
 
 export default function RegisterPage() {
+  const router = useRouter();
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    photoUrl: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await postUser(form);
+
+    if (result.acknowledged) {
+      alert("Successfull, Please Login");
+      router.push("/login");
+    }
+  };
+
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-linear-to-bl from-blue-50 via-white to-purple-50 overflow-hidden px-4 py-12">
       <div className="absolute top-20 right-20 w-32 h-32 bg-pink-200 rounded-full blur-2xl opacity-40 animate-bounce"></div>
@@ -24,7 +49,7 @@ export default function RegisterPage() {
             </p>
           </div>
 
-          <form className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="form-control group">
               <label className="label-text ml-2 mb-1 font-bold text-gray-600">
                 Full Name
@@ -33,6 +58,9 @@ export default function RegisterPage() {
                 <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
                   type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
                   className="input w-full pl-12 bg-gray-50/50 border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-primary rounded-xl"
                   placeholder="Alex"
                 />
@@ -47,6 +75,9 @@ export default function RegisterPage() {
                 <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
                   type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
                   className="input w-full pl-12 bg-gray-50/50 border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-primary rounded-xl"
                   placeholder="alex@hero.com"
                 />
@@ -61,6 +92,9 @@ export default function RegisterPage() {
                 <FaImage className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
                   type="url"
+                  name="photoUrl"
+                  value={form.photoUrl}
+                  onChange={handleChange}
                   className="input w-full pl-12 bg-gray-50/50 border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-primary rounded-xl"
                   placeholder="https://..."
                 />
@@ -75,6 +109,9 @@ export default function RegisterPage() {
                 <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
                   type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
                   placeholder="••••••••"
                   className="input w-full pl-12 bg-gray-50/50 border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-primary rounded-xl"
                 />
@@ -82,7 +119,10 @@ export default function RegisterPage() {
             </div>
 
             <div className="md:col-span-2 mt-4">
-              <button className="btn btn-primary w-full rounded-xl text-white shadow-lg hover:shadow-primary/40 group">
+              <button
+                type="submit"
+                className="btn btn-primary w-full rounded-xl text-white shadow-lg hover:shadow-primary/40 group"
+              >
                 Register Now{" "}
                 <FaCircleCheck className="ml-2 group-hover:rotate-12 transition-transform" />
               </button>

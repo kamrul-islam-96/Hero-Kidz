@@ -1,8 +1,40 @@
 "use client";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FaEnvelope, FaLock, FaGoogle, FaArrowRight } from "react-icons/fa6";
+import Swal from "sweetalert2";
 
 export default function LoginPage() {
+  const router = useRouter();
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await signIn("credentials", {
+      email: form.email,
+      password: form.password,
+      redirect: false,
+    });
+
+    console.log(result);
+    if (!result.ok) {
+      Swal.fire("error", "Invalid Credential", "error");
+    } else {
+      Swal.fire("success", "Welcome to Kidz Hub", "success");
+      router.push("/");
+    }
+  };
+
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-linear-to-br from-indigo-50 via-white to-pink-50 overflow-hidden px-4">
       <div className="absolute top-[-10%] left-[-10%] w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-50 animate-pulse"></div>
@@ -19,14 +51,16 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <form className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div className="form-control">
               <div className="relative group">
                 <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors" />
                 <input
                   type="email"
+                  name="email"
                   placeholder="Email Address"
                   className="input w-full pl-12 bg-white/50 border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-primary transition-all rounded-2xl"
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -37,8 +71,10 @@ export default function LoginPage() {
                 <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors" />
                 <input
                   type="password"
+                  name="password"
                   placeholder="Password"
                   className="input w-full pl-12 bg-white/50 border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-primary transition-all rounded-2xl"
+                  onChange={handleChange}
                   required
                 />
               </div>

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/layouts/Navbar";
 import Footer from "@/components/layouts/Footer";
+import NextAuthProvider from "@/provider/NextAuthProvider";
 
 const poppins = Poppins({
   weight: ["100", "200", "400", "500", "600", "800"],
@@ -21,7 +22,9 @@ export const fontBangla = localFont({
 // };
 
 export const metadata = {
-  metadataBase: new URL("https://hero-kidz-kamrul-islam-96-kamruls-projects-a798478d.vercel.app/"), 
+  metadataBase: new URL(
+    "https://hero-kidz-kamrul-islam-96-kamruls-projects-a798478d.vercel.app/",
+  ),
   title: {
     default: "Hero Kidz | Premium Kids Shop",
     template: "%s | Hero Kidz",
@@ -47,7 +50,7 @@ export const metadata = {
     siteName: "Hero Kidz",
     images: [
       {
-        url: "/og-image.jpg", 
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Hero Kidz Shop Preview",
@@ -68,18 +71,20 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${poppins.className} antialiased`}>
-        <header className="py-4 md:w-11/12 mx-auto">
-          <Navbar />
-        </header>
-        <main className="py-4 md:w-11/12 mx-auto min-h-[calc(100vh-318px)]">
-          {children}
-        </main>
-        <footer>
-          <Footer />
-        </footer>
-      </body>
-    </html>
+    <NextAuthProvider>
+      <html lang="en">
+        <body className={`${poppins.className} antialiased`}>
+          <header className="py-4 md:w-11/12 mx-auto">
+            <Navbar />
+          </header>
+          <main className="py-4 md:w-11/12 mx-auto min-h-[calc(100vh-318px)]">
+            {children}
+          </main>
+          <footer>
+            <Footer />
+          </footer>
+        </body>
+      </html>
+    </NextAuthProvider>
   );
 }
