@@ -9,24 +9,37 @@ import {
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const product = await response.json();
 
-  return {
-    title: product.name,
-    description: product.description?.slice(0, 150), 
-    openGraph: {
-      title: `${product.name} - Hero Kidz`,
-      description: product.description,
-      url: `https://hero-kidz.vercel.app/products/${id}`,
-      images: [
-        {
-          url: product.image, 
-          width: 800,
-          height: 600,
-        },
-      ],
-    },
-  };
+  const API_URL = `https://hero-kidz-kamrul-islam-96-kamruls-projects-a798478d.vercel.app/api/products/${id}`;
+
+  try {
+    const response = await fetch(API_URL);
+    const contentType = response.headers.get("content-type");
+    if (!response.ok || !contentType?.includes("application/json")) {
+      return { title: "Hero Kidz | Kids Shop" };
+    }
+
+    const product = await response.json();
+    return {
+      title: product.name,
+      description: product.description?.slice(0, 150),
+      metadataBase: new URL(API_URL),
+      openGraph: {
+        title: `${product.name} | Hero Kidz`,
+        description: product.description,
+        url: `${API_URL}/products/${id}`,
+        images: [
+          {
+            url: product.image, 
+            width: 1200,
+            height: 630,
+          },
+        ],
+      },
+    };
+  } catch (error) {
+    return { title: "Hero Kidz" };
+  }
 }
 
 export default async function ProductDetails({ params }) {
