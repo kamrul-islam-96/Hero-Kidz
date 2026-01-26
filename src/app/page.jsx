@@ -7,7 +7,7 @@ export default function Home() {
       <section>
         <Banner />
       </section>
-      <section>
+      <section className="py-8">
         <Products />
       </section>
     </div>
