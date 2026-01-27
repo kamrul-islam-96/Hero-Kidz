@@ -71,9 +71,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <NextAuthProvider>
-      <html lang="en">
-        <body className={`${poppins.className} antialiased`}>
+    <html lang="en">
+      <body className={`${poppins.className} antialiased`}>
+        <NextAuthProvider>
           <header className="py-4 md:w-11/12 mx-auto">
             <Navbar />
           </header>
@@ -83,8 +83,8 @@ export default function RootLayout({ children }) {
           <footer>
             <Footer />
           </footer>
-        </body>
-      </html>
-    </NextAuthProvider>
+        </NextAuthProvider>
+      </body>
+    </html>
   );
 }

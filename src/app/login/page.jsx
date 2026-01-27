@@ -1,13 +1,14 @@
 "use client";
+import SocialButton from "@/components/buttons/SocialButton";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { FaEnvelope, FaLock, FaGoogle, FaArrowRight } from "react-icons/fa6";
+import { FaEnvelope, FaLock, FaArrowRight } from "react-icons/fa6";
 import Swal from "sweetalert2";
 
 export default function LoginPage() {
-  const router = useRouter();
+  const params = useSearchParams();
 
   const [form, setForm] = useState({
     email: "",
@@ -24,14 +25,19 @@ export default function LoginPage() {
       email: form.email,
       password: form.password,
       redirect: false,
+      callbackUrl: params.get("callbackUrl") || "/",
     });
 
-    console.log(result);
     if (!result.ok) {
       Swal.fire("error", "Invalid Credential", "error");
     } else {
-      Swal.fire("success", "Welcome to Kidz Hub", "success");
-      router.push("/");
+      await Swal.fire({
+        icon: "success",
+        title: "Welcome to Kidz Hub",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      window.location.href = result.url;
     }
   };
 
@@ -97,9 +103,7 @@ export default function LoginPage() {
             Or Login with
           </div>
 
-          <button className="btn btn-outline border-gray-200 hover:bg-gray-50 hover:text-black w-full rounded-2xl gap-3 normal-case shadow-sm">
-            <FaGoogle className="text-red-500" /> Continue with Google
-          </button>
+          <SocialButton />
 
           <p className="text-center mt-8 text-gray-600 text-sm">
             New here?{" "}

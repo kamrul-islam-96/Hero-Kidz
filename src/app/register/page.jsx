@@ -10,6 +10,7 @@ import {
   FaImage,
   FaCircleCheck,
 } from "react-icons/fa6";
+import Swal from "sweetalert2";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -29,7 +30,12 @@ export default function RegisterPage() {
     const result = await postUser(form);
 
     if (result.acknowledged) {
-      alert("Successfull, Please Login");
+      await Swal.fire({
+        icon: "success",
+        title: "Welcome to Kidz Hub",
+        timer: 1500,
+        showConfirmButton: false,
+      });
       router.push("/login");
     }
   };
