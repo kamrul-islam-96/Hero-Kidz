@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { FaStar, FaShoppingCart, FaCheckCircle } from "react-icons/fa";
+import AddToCartBtn from "../buttons/AddToCartBtn";
 
 export default function ProductCard({ product }) {
   const discountedPrice =
@@ -67,10 +68,9 @@ export default function ProductCard({ product }) {
 
         {/* Actions */}
         <div className="card-actions mt-4">
-          <button className="btn btn-primary btn-block gap-2 normal-case">
-            <FaShoppingCart />
-            Add to Cart
-          </button>
+          <div className="btn-block">
+            <AddToCartBtn product={{ ...product, _id: product._id.toString() }} />
+          </div>
           <Link
             href={`/products/${product._id}`}
             className="btn btn-primary btn-block gap-2 normal-case"
