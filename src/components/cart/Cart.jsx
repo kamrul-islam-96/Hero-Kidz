@@ -5,8 +5,14 @@ import { ShoppingBag, Sparkles } from "lucide-react";
 
 export default function Cart({ safeCartItems = [] }) {
   const [items, setItems] = useState(safeCartItems);
+
   const totalItems = useMemo(
     () => items.reduce((acm, item) => acm + item.quantity, 0),
+    [items],
+  );
+
+  const totalPrice = useMemo(
+    () => items.reduce((sum, item) => sum + item.price * item.quantity, 0),
     [items],
   );
 
@@ -64,7 +70,7 @@ export default function Cart({ safeCartItems = [] }) {
 
         {/* Right Side: Sibling Div - Width */}
         <div className="flex-1">
-          <h1>{totalItems}</h1>
+          <h1>{totalItems}  {totalPrice}</h1>
         </div>
       </div>
     </div>
