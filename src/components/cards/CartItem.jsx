@@ -3,9 +3,10 @@
 import React from "react";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
-import { deleteItemsFromCart } from "@/actions/server/cart";
+import { deleteItemsFromCart, increaseItemDb } from "@/actions/server/cart";
+import toast from "react-hot-toast";
 
-const CartItem = ({ cart, removeItem }) => {
+const CartItem = ({ cart, removeItem, updateQuantity }) => {
   const { title, quantity, image, price, userName, _id } = cart;
 
   const handleDeleteItem = async () => {
@@ -38,6 +39,15 @@ const CartItem = ({ cart, removeItem }) => {
         }
       }
     });
+  };
+
+  const onIncrease = async () => {
+    const result = await increaseItemDb(_id, quantity);
+
+    if (result.success) {
+      toast.success("Item added");
+      updateQuantity(_id, quantity + 1);
+    }
   };
 
   return (
@@ -79,7 +89,7 @@ const CartItem = ({ cart, removeItem }) => {
               </button>
               <button
                 className="btn btn-ghost btn-xs join-item"
-                // onClick={() => onUpdateQuantity(quantity + 1)}
+                onClick={onIncrease}
               >
                 <Plus size={16} />
               </button>

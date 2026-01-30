@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layouts/Navbar";
 import Footer from "@/components/layouts/Footer";
 import NextAuthProvider from "@/provider/NextAuthProvider";
+import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({
   weight: ["100", "200", "400", "500", "600", "800"],
@@ -73,6 +74,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
+        <Toaster position="top-center" reverseOrder={false} />
         <NextAuthProvider>
           <header className="py-4 md:w-11/12 mx-auto">
             <Navbar />

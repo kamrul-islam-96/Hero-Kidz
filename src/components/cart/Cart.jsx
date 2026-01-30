@@ -14,6 +14,14 @@ export default function Cart({ safeCartItems = [] }) {
     setItems((prevItems) => prevItems.filter((item) => item._id != id));
   };
 
+  const updateQuantity = (id, q) => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item._id == id ? { ...item, quantity: q } : item,
+      ),
+    );
+  };
+
   return (
     <div>
       {/* Header */}
@@ -37,7 +45,12 @@ export default function Cart({ safeCartItems = [] }) {
         <div className="flex-2 flex flex-col gap-4">
           {items.length > 0 ? (
             items.map((cart) => (
-              <CartItem key={cart._id} cart={cart} removeItem={removeItem} />
+              <CartItem
+                key={cart._id}
+                cart={cart}
+                removeItem={removeItem}
+                updateQuantity={updateQuantity}
+              />
             ))
           ) : (
             <div className="text-center py-20 bg-base-200/30 rounded-4xl border-2 border-dashed border-base-300">
