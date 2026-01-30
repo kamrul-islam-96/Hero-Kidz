@@ -1,13 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
-import { deleteItemsFromCart, increaseItemDb } from "@/actions/server/cart";
+import {
+  decreaseItemDb,
+  deleteItemsFromCart,
+  increaseItemDb,
+} from "@/actions/server/cart";
 import toast from "react-hot-toast";
 
 const CartItem = ({ cart, removeItem, updateQuantity }) => {
   const { title, quantity, image, price, userName, _id } = cart;
+  const [loading, setLoading] = useState(false);
 
   const handleDeleteItem = async () => {
     Swal.fire({
@@ -42,12 +47,25 @@ const CartItem = ({ cart, removeItem, updateQuantity }) => {
   };
 
   const onIncrease = async () => {
+    setLoading(true);
     const result = await increaseItemDb(_id, quantity);
 
     if (result.success) {
       toast.success("Item added");
       updateQuantity(_id, quantity + 1);
     }
+    setLoading(false);
+  };
+
+  const onDecrease = async () => {
+    setLoading(true);
+    const result = await decreaseItemDb(_id, quantity);
+
+    if (result.success) {
+      toast.success("Quantity decrease");
+      updateQuantity(_id, quantity - 1);
+    }
+    setLoading(false);
   };
 
   return (
@@ -79,8 +97,8 @@ const CartItem = ({ cart, removeItem, updateQuantity }) => {
             <div className="join border border-base-300">
               <button
                 className="btn btn-ghost btn-xs join-item"
-                // onClick={() => onUpdateQuantity(quantity - 1)}
-                disabled={quantity <= 1}
+                onClick={onDecrease}
+                disabled={quantity <= 1 || loading}
               >
                 <Minus size={16} />
               </button>
@@ -90,6 +108,7 @@ const CartItem = ({ cart, removeItem, updateQuantity }) => {
               <button
                 className="btn btn-ghost btn-xs join-item"
                 onClick={onIncrease}
+                disabled={quantity === 10 || loading}
               >
                 <Plus size={16} />
               </button>

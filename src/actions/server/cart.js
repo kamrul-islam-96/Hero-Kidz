@@ -95,3 +95,26 @@ export const increaseItemDb = async (id, quantity) => {
   const result = await cartCollection.updateOne(query, updateData);
   return { success: Boolean(result.acknowledged) };
 };
+
+export const decreaseItemDb = async (id, quantity) => {
+  const { user } = (await getServerSession(authOptions)) || {};
+  if (!user) return { success: false };
+
+  if (quantity <= 1) {
+    return {
+      success: false,
+      message: "quantity can not be empty",
+    };
+  }
+
+  const query = { _id: new ObjectId(id) };
+
+  const updateData = {
+    $inc: {
+      quantity: -1,
+    },
+  };
+
+  const result = await cartCollection.updateOne(query, updateData);
+  return { success: Boolean(result.acknowledged) };
+};
