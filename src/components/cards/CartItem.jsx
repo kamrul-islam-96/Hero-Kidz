@@ -5,7 +5,7 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 import { deleteItemsFromCart } from "@/actions/server/cart";
 
-const CartItem = ({ cart, onUpdateQuantity }) => {
+const CartItem = ({ cart, removeItem }) => {
   const { title, quantity, image, price, userName, _id } = cart;
 
   const handleDeleteItem = async () => {
@@ -22,6 +22,8 @@ const CartItem = ({ cart, onUpdateQuantity }) => {
         const result = await deleteItemsFromCart(_id);
 
         if (result.success) {
+          removeItem(_id);
+
           Swal.fire({
             title: "Deleted!",
             text: "Your file has been deleted.",
