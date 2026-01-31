@@ -1,7 +1,7 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import CartItem from "../cards/CartItem";
-import { ShoppingBag, Sparkles } from "lucide-react";
+import { ChevronRight, CreditCard, ShoppingBag, Sparkles } from "lucide-react";
 
 export default function Cart({ safeCartItems = [] }) {
   const [items, setItems] = useState(safeCartItems);
@@ -70,7 +70,78 @@ export default function Cart({ safeCartItems = [] }) {
 
         {/* Right Side: Sibling Div - Width */}
         <div className="flex-1">
-          <h1>{totalItems}  {totalPrice}</h1>
+          <div className="sticky top-8 p-6 rounded-3xl bg-base-100 border border-base-300 shadow-xl shadow-base-300/20">
+            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              Order Summary
+            </h2>
+
+            {/* Compact Item List */}
+            <div className="space-y-4 mb-6 max-h-75 overflow-y-auto pr-2 custom-scrollbar">
+              {items.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex gap-3 items-center bg-base-200/50 p-2 rounded-2xl"
+                >
+                  <div className="relative h-16 w-16 shrink-0 rounded-xl overflow-hidden border border-base-300">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="object-cover w-full h-full"
+                    />
+                    <span className="absolute -top-1 -right-1 badge badge-primary badge-sm font-bold">
+                      {item.quantity}
+                    </span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold truncate text-sm">{item.name}</p>
+                    <p className="text-xs opacity-60">
+                      ${item.price.toFixed(2)} each
+                    </p>
+                  </div>
+                  <p className="font-bold text-sm">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <hr className="border-base-300 mb-6" />
+
+            {/* Price Breakdown */}
+            <div className="space-y-3 mb-8">
+              <div className="flex justify-between text-gray-500">
+                <span>Subtotal ({totalItems} items)</span>
+                <span>${totalPrice.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-gray-400 text-sm italic">
+                <span>Shipping & Taxes</span>
+                <span>Calculated at checkout</span>
+              </div>
+              <div className="flex justify-between items-end pt-2">
+                <span className="font-bold text-lg">Total</span>
+                <span className="text-3xl font-black text-primary">
+                  ${totalPrice.toFixed(2)}
+                </span>
+              </div>
+            </div>
+
+            {/* Confirm Button */}
+            <button
+              disabled={items.length === 0}
+              className="btn btn-primary btn-block h-16 rounded-2xl text-lg font-bold group"
+            >
+              Confirm & Checkout
+              <ChevronRight
+                size={20}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </button>
+
+            <div className="mt-4 flex items-center justify-center gap-2 text-xs opacity-50 font-medium">
+              <CreditCard size={14} />
+              Secure encrypted checkout
+            </div>
+          </div>
         </div>
       </div>
     </div>
