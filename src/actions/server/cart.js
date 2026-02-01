@@ -118,3 +118,13 @@ export const decreaseItemDb = async (id, quantity) => {
   const result = await cartCollection.updateOne(query, updateData);
   return { success: Boolean(result.acknowledged) };
 };
+
+export const clearCartData = async () => {
+  const { user } = (await getServerSession(authOptions)) || {};
+  if (!user) return { success: false };
+
+  const query = { email: user?.email };
+  const result = await cartCollection.deleteMany(query);
+
+  return result;
+};

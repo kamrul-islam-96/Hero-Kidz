@@ -2,6 +2,7 @@
 import React, { useMemo, useState } from "react";
 import CartItem from "../cards/CartItem";
 import { ChevronRight, CreditCard, ShoppingBag, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 export default function Cart({ safeCartItems = [] }) {
   const [items, setItems] = useState(safeCartItems);
@@ -70,7 +71,7 @@ export default function Cart({ safeCartItems = [] }) {
 
         {/* Right Side: Sibling Div - Width */}
         <div className="flex-1">
-          <div className="sticky top-8 p-6 rounded-3xl bg-base-100 border border-base-300 shadow-xl shadow-base-300/20">
+          <div className="sticky top-8 p-4 rounded-3xl bg-base-100 border border-base-300 shadow-xl shadow-base-300/20">
             <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
               Order Summary
             </h2>
@@ -85,7 +86,7 @@ export default function Cart({ safeCartItems = [] }) {
                   <div className="relative h-16 w-16 shrink-0 rounded-xl overflow-hidden border border-base-300">
                     <img
                       src={item.image}
-                      alt={item.name}
+                      alt={item.title}
                       className="object-cover w-full h-full"
                     />
                     <span className="absolute -top-1 -right-1 badge badge-primary badge-sm font-bold">
@@ -93,7 +94,7 @@ export default function Cart({ safeCartItems = [] }) {
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-bold truncate text-sm">{item.name}</p>
+                    <p className="font-bold truncate text-sm">{item.title}</p>
                     <p className="text-xs opacity-60">
                       ${item.price.toFixed(2)} each
                     </p>
@@ -126,7 +127,8 @@ export default function Cart({ safeCartItems = [] }) {
             </div>
 
             {/* Confirm Button */}
-            <button
+            <Link
+            href={'/checkout'}
               disabled={items.length === 0}
               className="btn btn-primary btn-block h-16 rounded-2xl text-lg font-bold group"
             >
@@ -135,7 +137,7 @@ export default function Cart({ safeCartItems = [] }) {
                 size={20}
                 className="group-hover:translate-x-1 transition-transform"
               />
-            </button>
+            </Link>
 
             <div className="mt-4 flex items-center justify-center gap-2 text-xs opacity-50 font-medium">
               <CreditCard size={14} />
