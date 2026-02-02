@@ -8,9 +8,9 @@ export default async function Products() {
 
   return (
     <div>
-      <h2 className="text-4xl font-bold text-center mb-10">Out Products</h2>
+      <h2 className="text-4xl font-bold text-center">Out Products</h2>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 px-4 py-8 md:px-0">
         {products.map((product) => (
           <ProductCard key={product.title} product={product} />
         ))}
